@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ThreadState">
+    <output-path>$PROJECT_DIR$/out/artifacts/ThreadState</output-path>
+    <root id="archive" name="ThreadState.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/blankProgram/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="directory" name="weichat">
+        <element id="file-copy" path="$PROJECT_DIR$/blankProgram/target/classes/weichat/ThreadState.class" />
+      </element>
+    </root>
+  </artifact>
+</component>
