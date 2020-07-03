@@ -1,4 +1,4 @@
-package com.test;
+package com;
 
 import java.util.Objects;
 
@@ -19,7 +19,6 @@ public class Person {
                 ", name='" + name + '\'' +
                 '}';
     }
-
     public Person() {
     }
 

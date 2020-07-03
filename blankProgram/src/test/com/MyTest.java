@@ -1,4 +1,4 @@
-package com.test;
+package com;
 
 import entity.User;
 import org.junit.Test;
@@ -104,7 +104,7 @@ public class MyTest {
     @Test
     public void test5() {
         HashSet hashSet = new HashSet();
-         Person p1 = new com.test.Person(1001,"AA");
+         Person p1 = new Person(1001,"AA");
          Person p2 = new Person(102,"BB");
 
         //entity.Person p3 = new entity.Person(1001,"AA");
