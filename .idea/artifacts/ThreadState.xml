@@ -7,6 +7,10 @@
       </element>
       <element id="directory" name="weichat">
         <element id="file-copy" path="$PROJECT_DIR$/blankProgram/target/classes/weichat/ThreadState.class" />
+        <element id="file-copy" path="$PROJECT_DIR$/blankProgram/target/classes/weichat/ThreadState$Waiting.class" />
+        <element id="file-copy" path="$PROJECT_DIR$/blankProgram/target/classes/weichat/ThreadState$TimeWaiting.class" />
+        <element id="file-copy" path="$PROJECT_DIR$/blankProgram/target/classes/weichat/ThreadState$RunThread.class" />
+        <element id="file-copy" path="$PROJECT_DIR$/blankProgram/target/classes/weichat/ThreadState$Blocked.class" />
       </element>
     </root>
   </artifact>
