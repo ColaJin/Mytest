@@ -1,7 +1,9 @@
 package controller;
 
 import Projection.TeacherProjection;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import dao.TeacherReposity;
+import entity.DemoData;
 import entity.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -9,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
-
 
 public class SchoolController {
 
@@ -49,4 +51,19 @@ public class SchoolController {
         });
         return projections;
     }
+
+    //sheet多个参数表示导出多个sheet，password需要导出加密码，template高级用法模板导出
+    @ResponseExcel(name = "lengleng", sheet = {"第一个sheet", "第二个sheet"}, password = "lengleng", template = "example.xlsx")
+    @GetMapping("/e1")
+    public List<DemoData> e1() {
+        List<DemoData> dataList = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            DemoData data = new DemoData();
+            data.setUsername("tr1" + i);
+            data.setPassword("tr2" + i);
+            dataList.add(data);
+        }
+        return dataList;
+    }
+
 }

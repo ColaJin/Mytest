@@ -51,7 +51,7 @@ public class LoopQueue<E> implements Queue<E> {
     @Override
     public E getFront() {
         if (isEmpty()) {
-            throw  new IllegalArgumentException("队列为空");
+            throw new IllegalArgumentException("队列为空");
         }
         return data[front];
     }
@@ -80,7 +80,36 @@ public class LoopQueue<E> implements Queue<E> {
         for (int i = 0; i < size; i++) {
             newData[i] = data[(front + i) % data.length];//循环数组防止越界
         }
+        data = newData;
+        front = 0;
+        tail = size;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        res.append(String.format("Queue:size=%d,capacity=%d\n", size, getCapacity()));
+        res.append("front [");
+        for (int i = front; i != tail; i = (i + 1) % data.length) {
+            res.append(data[i]);
+            if ((i + 1) % data.length != tail) {
+                res.append(",");
+            }
+        }
+        res.append("] tail");
+        return res.toString();
+    }
 
+    public static void main(String[] args) {
+        LoopQueue<Integer> queue = new LoopQueue<Integer>();
+        for (int i = 0; i < 10; i++) {
+            queue.enqueue(i);
+            System.out.println(queue);
+            if (i%3==2){//每添加3个元素出列一个
+                queue.dequeue();
+                System.out.println(queue);
+            }
+
+        }
+    }
 }
