@@ -1,6 +1,6 @@
 package entity;
 
-public class User {
+public class User implements Comparable<Object> {
     private String name;
     private int age;
 
@@ -32,4 +32,21 @@ public class User {
                 ", age=" + age +
                 '}';
     }
+
+    //按姓名从大到小排列，年龄从小到大排列
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof User) {
+            User user = (User) o;
+            int compare = -this.name.compareTo(user.name);
+            if (compare != 0){
+                return compare;
+            }else {
+                return Integer.compare(this.age,user.age);
+            }
+        }else {
+            throw new RuntimeException("输入的类型不匹配");
+        }
+    }
+
 }
