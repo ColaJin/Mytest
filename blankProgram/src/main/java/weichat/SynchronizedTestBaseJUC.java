@@ -8,6 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * 基于JUC的优化示例
  * JUC就是java.util .concurrent工具包的简称
  * 一个计数器的优化，我们分别用Synchronized，ReentrantLock，Atomic三种不同的方式来实现一个计数器
+ * 在并发量高，循环次数多的情况，可重入锁的效率高于Synchronized，但最终Atomic性能最好。
  */
 public class SynchronizedTestBaseJUC {
     public static int threadNum = 100;
@@ -53,8 +54,8 @@ public class SynchronizedTestBaseJUC {
                 @Override
                 public void run() {
                     for (int j = 0; j < loopTimes; j++) {
-//                        syn.increaseLock();
-                        syn.increase();
+                        syn.increaseLock();
+//                        syn.increase();
                     }
                 }
             });
@@ -68,7 +69,41 @@ public class SynchronizedTestBaseJUC {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("userSyn" + "-" + syn + " : " + (System.currentTimeMillis() - l) + "ms");
+        System.out.println("userRea" + "-" + syn + " : " + (System.currentTimeMillis() - l) + "ms");
+    }
+
+    public static void useAto(){
+        //线程数
+        Syn syn = new Syn();
+        Thread[] threads = new Thread[threadNum];
+        //记录运行时间
+        long l = System.currentTimeMillis();
+        for (int i = 0; i < threadNum; i++) {
+            threads[i] = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int j = 0; j < loopTimes; j++) {
+                        Syn.ai.incrementAndGet();
+                    }
+                }
+            });
+            threads[i].start();
+        }
+        //等待线程结束
+        try {
+            for (int i = 0; i < threadNum; i++) {
+                threads[i].join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("useAto" + "-" + syn + " : " + (System.currentTimeMillis() - l) + "ms");
+    }
+
+    public static void main(String[] args) {
+        SynchronizedTestBaseJUC.userSyn();
+        SynchronizedTestBaseJUC.useRea();
+        SynchronizedTestBaseJUC.useAto();
     }
 
 }
