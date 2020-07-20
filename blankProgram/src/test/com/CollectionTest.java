@@ -1,87 +1,123 @@
 package com;
 
+import entity.User;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.List;
 
 /**
- * Colections:操作Collection、Map的工具类
- * <p>
- * <p>
- * 面试题：Collection和Collections的区别
+ * Collection接口中声明的方法测试
+ *
+ * 结论：
+ * 向Collection接口的实现类的对象中添加数据obj时要求obj所在的类要重写equals()
  */
 public class CollectionTest {
-
-    /**
-     * reverse(List):反转List中元素的顺序
-     * shuffle(List):对list集合元素进行随机排序
-     * short(List):根据元素自然排序对指定的List集合元素按照升序排列
-     * sort(list,Comparator):根据指定的Comparator产生的顺序对List集合元素进行排序
-     * swap(List,int,int):将指定的List集合中的i处元素和j处元素进行交换
-     */
-
-    /**
-     * Object max(Collection):根据元素的自然排序，返回指定集合中的最大元素
-     * Object max(Collection,Comparator):根据Comparator指定的顺序，返回给定集合中的最大元素
-     * Object min(Collection)
-     * Object min(Collection,Comparator)
-     * int frenquency(Collection,Object):返回指定集合中指定元素的出现次数
-     * void copy(List dest,List src):将src中的内容复制到dest中
-     * boolean replaceAll(List list,Object oldVal,Object newVal):使用新值替换list对象的所有旧值
-     */
-
     @Test
     public void test1() {
-        List list = new ArrayList();
-        list.add(123);
-        list.add(43);
-        list.add(765);
-        list.add(765);
-        list.add(765);
-        list.add(-97);
-        list.add(0);
+        Collection coll = new ArrayList();
+        coll.add(123);//执行System.out.println(coll.contains(new User("Jerry",20)));调用一次equals()方法
+        coll.add(456);//执行System.out.println(coll.contains(new User("Jerry",20)));调用一次equals()方法调用一次equals()方法
+        coll.add(new String("Tom"));//执行System.out.println(coll.contains(new User("Jerry",20)));调用一次equals()方法调用一次equals()方法
+        coll.add(false);//执行System.out.println(coll.contains(new User("Jerry",20)));调用一次equals()方法调用一次equals()方法
+        /*User p =new User("Jerry",20);
+        coll.add(p);*/
+        coll.add(new User("Jerry",20));//执行System.out.println(coll.contains(new User("Jerry",20)));调用一次equals()方法调用一次equals()方法
+        //1.contains(Object obj):判断当前集合中是否包含obj
+        boolean contains = coll.contains(123);
+        System.out.println(contains);
+        //System.out.println(coll.contains(p));//返回true
+        System.out.println(coll.contains(new String("Tom")));
+        System.out.println(coll.contains(new User("Jerry",20)));//返回false可变成true
 
-        System.out.println(list);
-//        Collections.reverse(list);
-//        Collections.shuffle(list);
-//        Collections.sort(list);
-//        Collections.swap(list,2,3);
-        int frequency = Collections.frequency(list, 765);
-        System.out.println(list);
-        System.out.println(frequency);
+        //2.containsAll(Collection coll1):判断形参coll1中所有元素是否都(所有元素)存在当前集合中
+        Collection coll1  = Arrays.asList(123, 4567);
+        System.out.println(coll.containsAll(coll1));
     }
 
     @Test
     public void test2() {
-        List list = new ArrayList();
-        list.add(123);
-        list.add(43);
-        list.add(765);
-        list.add(-97);
-        list.add(0);
+        //3.remove(Object obj):从当前集合中移除obj元素
+        Collection coll = new ArrayList();
+        coll.add(123);
+        coll.add(456);
+        coll.add(new String("Tom"));
+        coll.add(false);
+        coll.add(new User("Jerry",20));
 
+        coll.remove(123);
+        System.out.println(coll);
+
+        //重写之后相同可以移除成功
+        coll.remove(new User("Jerry",20));
+        System.out.println(coll);
+
+        //4.removeAll(Collection Coll1)：从当前元素集合中移除coll1所有元素(差集)
+        Collection coll1=Arrays.asList(123,4567);
+        coll.removeAll(coll1);
+        System.out.println(coll);
+    }
+
+    @Test
+    public void test3() {
+        //3.remove(Object obj):从当前集合中移除obj元素
+        Collection coll = new ArrayList();
+        coll.add(123);
+        coll.add(456);
+        coll.add(new String("Tom"));
+        coll.add(false);
+        coll.add(new User("Jerry",20));
+
+        /*//retainAll(Collection coll1)：获取当前集合和coll1集合的交集，并返回给当前集合(交集)
+        Collection coll1=Arrays.asList(123,456,789);
+        coll.retainAll(coll1);
+        System.out.println(coll);*/
+
+        //equals(Object obj)：要想返回true，需要当前集合和形参集合的元素是否相同
+        Collection coll1 = new ArrayList();
+        //交换顺序(数组存储有序，选用HashSet则没影响)返回false
+        coll1.add(456);
+        coll1.add(123);
+        coll1.add(new String("Tom"));
+        coll1.add(false);
+        coll1.add(new User("Jerry",20));
+        System.out.println(coll.equals(coll1));
+    }
+
+    @Test
+    public void test4() {
+        Collection coll = new ArrayList();
+        coll.add(123);
+        coll.add(456);
+        coll.add(new String("Tom"));
+        coll.add(false);
+        coll.add(new User("Jerry",20));
+
+        //7.hashCode():返回当前对象的哈希值
+        System.out.println(coll.hashCode());
+
+        //8.集合->数组：toArray():
+        Object[] arr = coll.toArray();
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println(arr[i]);
+        }
+
+        //拓展：数组--->集合:调用Arrays类的静态方法asList()
+        List<String> list = Arrays.asList(new String[]{"11", "BB", "CC"});
         System.out.println(list);
-        //list.size是指添加的元素个数不是数组大小，不可以直接List dest = new ArrayList(list.size());
-        //报异常：IndexOutOfBoundsException: Source does not fit in dest
-//        List dest = new ArrayList();
-//        Collections.copy(dest,list);
 
-        List dest = Arrays.asList(new Object[list.size()]);
-        System.out.println(dest.size());
-        Collections.copy(dest, list);
-        //未调用时dest为list大小个null即5个null
-        System.out.println(dest);
+        //一个元素
+        List<int[]> arr1 = Arrays.asList(new int[]{123, 456});
+        System.out.println(arr1);
+        System.out.println(arr1.size());
 
-        /**
-         * Collections类中提供了多个synchronizedXxx()方法，
-         * 该方法可以使指定集合包装成线程同步的集合，从而解决
-         * 多线程并发访问集合时的线程安全问题
-         */
+        //也可以List arr2 = Arrays.asList(123, 456);List arr3 = Arrays.asList(new Integer[]{123, 456});两个元素
+        List<Integer> arr2 = Arrays.asList(123, 456);
+        System.out.println(arr2);
+        System.out.println(arr2.size());
 
-        //返回的list1即为线程安全List
-        List synList = Collections.synchronizedList(list);
+        //9.iterator():返回Iterator接口实例，用于遍历集合元素，放在IteratorTest.java中测试
     }
 }
