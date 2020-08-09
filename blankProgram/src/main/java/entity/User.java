@@ -53,7 +53,7 @@ public class User implements Comparable<Object> {
 
     @Override
     public boolean equals(Object o) {
-        System.out.println("equals()-----");
+        System.out.println("User equals()-----");
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
@@ -61,8 +61,8 @@ public class User implements Comparable<Object> {
                 Objects.equals(name, user.name);
     }
 
-    /*@Override
+    @Override
     public int hashCode() {
         return Objects.hash(name, age);
-    }*/
+    }
 }
