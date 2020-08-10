@@ -14,7 +14,7 @@ public enum  EnumSingle {
 }
 
 //测试是否保证唯一性
-class Tset {
+class Test {
     public static void main(String[] args) throws Exception {
         //获取对象第一种方式直接.
         EnumSingle instance1 = EnumSingle.INSTANCE;
