@@ -1,4 +1,4 @@
-package gof23;
+package gof23.singleton;
 
 /**
  * 饿汉式单例
