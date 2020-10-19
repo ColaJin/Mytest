@@ -1,11 +1,8 @@
 package com;
 
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngineConfiguration;
-import org.activiti.engine.ProcessEngines;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.*;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
@@ -18,7 +15,7 @@ public class Activiti {
     public void testGenerteTable() {
         //第一步：创建ProcessEngineConfiguration对象
         ProcessEngineConfiguration configuration = ProcessEngineConfiguration
-                .createProcessEngineConfigurationFromResource("activiti-cfg.xml", "processEngineConfiguration01");
+                .createProcessEngineConfigurationFromResource("activiti.cfg.xml", "processEngineConfiguration01");
         //第二步：创建ProcessEngine对象
         ProcessEngine processEngine = configuration.buildProcessEngine();
         System.out.println(processEngine);
@@ -69,6 +66,77 @@ public class Activiti {
         IOUtils.copy(pngI,pngO);
         IOUtils.copy(bpmnI,bpmnO);
 
+    }
+
+    /**
+     * 全部流程实例挂起，模板发生改变
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testAllProcessInstanceSuspendAndActivate() throws Exception {
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        RepositoryService repositoryService = processEngine.getRepositoryService();
+
+        //全部流程实例挂起
+        /*String definitionId = "";
+        repositoryService.createProcessDefinitionQuery().processDefinitionId(definitionId);*/
+        ProcessDefinition processDefinition = repositoryService
+                .createProcessDefinitionQuery()
+                .processDefinitionKey("StorageIn")
+                .singleResult();
+
+        //得到当前流程定义的实例是否都为暂停状态
+        boolean suspended = processDefinition.isSuspended();
+
+        String processDefinitionId = processDefinition.getId();
+
+        if (suspended) {
+            //暂停状态激活
+            repositoryService.activateProcessDefinitionById(processDefinitionId,true,null);
+            System.out.println("流程定义"+processDefinitionId+"激活");
+        }else {
+            repositoryService.suspendProcessDefinitionById(processDefinitionId,true,null);
+            //挂起后流程不能操作
+            System.out.println("流程定义"+processDefinitionId+"挂起");
+        }
+    }
+
+    /**
+     * 单个流程实例挂起，模板发生改变
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testSingleProcessInstanceSuspendAndActivate() throws Exception {
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        RuntimeService runtimeService = processEngine.getRuntimeService();
+
+        //流程实例挂起
+        /*String definitionId = "";
+        repositoryService.createProcessDefinitionQuery().processDefinitionId(definitionId);*/
+        //流程实例id
+//        String processInstanceId = "";
+        ProcessInstance processInstance = runtimeService
+                .createProcessInstanceQuery()
+//                .processInstanceId(processInstanceId)
+                .processInstanceBusinessKey("StorageIn:1")
+                .singleResult();
+
+        //得到当前流程定义的实例是否都为暂停状态
+        boolean suspended = processInstance.isSuspended();
+
+        String processInstanceId = processInstance.getId();
+
+        if (suspended) {
+            //暂停状态激活
+            runtimeService.activateProcessInstanceById(processInstanceId);
+            System.out.println("流程实例"+processInstanceId+"激活");
+        }else {
+            runtimeService.suspendProcessInstanceById(processInstanceId);
+            //挂起后流程不能操作
+            System.out.println("流程实例"+processInstanceId+"挂起");
+        }
     }
 
 }
