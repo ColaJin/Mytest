@@ -24,7 +24,7 @@ import java.util.Queue;
  */
 public class SortedArrayToBST {
     public static void main(String[] args) {
-        int[] nums = new int[]{-10, -3, 0, 5, 9, 3, 4, 11};
+        int[] nums = new int[]{-10, -3, 0, 5, 9, 10, 11, 12, 13, 14, 15, 16};
         TreeNode node = sortedArrayToBST(nums);
 //        TreeNode node = sortedArrayToBSTRecursion(nums);
         ergodic(node);
@@ -89,10 +89,10 @@ public class SortedArrayToBST {
             if (heigth(t.left) - heigth(t.right) == 2) {
                 //打破平衡
                 if (x < t.left.val) {
-                    //LL型（左左型）
+                    //LL型（左左型），不存在这种情况因为插入的结点的值都是大的,可以插入比之前结点小的数字，查看情况
                     t = rotateWithLeftChild(t);
                 } else {
-                    //LR型（左右型）
+                    //LR型（左右型），不存在这种情况因为插入的结点的值都是大的
                     t = doubleWithLeftChild(t);
                 }
             }
@@ -131,7 +131,9 @@ public class SortedArrayToBST {
     //带左子树旋转,适用于LL型
     private static TreeNode rotateWithLeftChild(TreeNode k2) {
         TreeNode k1 = k2.left;
+        //k2.left变成k1的的右子树
         k2.left = k1.right;
+        //k1变成根节点，k2作为右子树
         k1.right = k2;
         return k1;
     }
@@ -139,22 +141,26 @@ public class SortedArrayToBST {
     //带右子树旋转，适用于RR型
     private static TreeNode rotateWithRightChild(TreeNode k1) {
         TreeNode k2 = k1.right;
-        //更新k1.right为null不是之前的K2
+        //k1.right变成k2的左子树
         k1.right = k2.left;
-        //把k2变成根节点，左子树为k1
+        //k2变成根节点，k1作为左子树
         k2.left = k1;
         return k2;
     }
 
-    //双旋转,适用于RL型
+    //双旋转,适用于RL型先左子树转再右子树转
     private static TreeNode doubleWithRightChild(TreeNode k1) {
+        //先把结点的右子树LL
         k1.right = rotateWithLeftChild(k1.right);
+        //根据该节点再进行RR
         return rotateWithRightChild(k1);
     }
 
-    //双旋转，适用于LR型
+    //双旋转，适用于LR型，先右子树转再左子树转
     private static TreeNode doubleWithLeftChild(TreeNode k3) {
+        //先把结点的左子树RR
         k3.left = rotateWithRightChild(k3.left);
+        //根据该结点再进行LL
         return rotateWithLeftChild(k3);
     }
 
