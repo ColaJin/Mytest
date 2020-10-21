@@ -1,6 +1,8 @@
 package com;
 
 import org.activiti.engine.*;
+import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.DeploymentBuilder;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.apache.commons.io.IOUtils;
@@ -9,6 +11,8 @@ import org.junit.Test;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Activiti {
     @Test
@@ -137,6 +141,54 @@ public class Activiti {
             //挂起后流程不能操作
             System.out.println("流程实例"+processInstanceId+"挂起");
         }
+    }
+
+    /**
+     * 部署流程使用classPath
+     */
+    @Test
+    public void deployProcess1() {
+        String bpmnName = "UELMethodTest";
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        RepositoryService repositoryService = processEngine.getRepositoryService();
+        DeploymentBuilder deploymentBuilder = repositoryService.createDeployment().name("测试UELMEthod流程");
+        Deployment deployment = null;
+        try {
+            deployment = deploymentBuilder.addClasspathResource(bpmnName + ".bpmn")
+                    .addClasspathResource(bpmnName + ".png").deploy();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("部署成功：流程部署ID：" + deployment.getId());
+    }
+
+    //删除部署信息
+    @Test
+    public void deleteDeployProcess() {
+        // 获取核心对象
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // RepositoryService 仓库
+        RepositoryService repositoryService  = processEngine.getRepositoryService();
+        String deploymentId = "20001";
+        repositoryService .deleteDeployment(deploymentId);
+        System.out.println("删除流程部署成功");
+    }
+
+    /**
+     * 流程定义key相同时会发生问题，启动的项目分不清
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testUELMethodStartProcess() throws Exception {
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        RuntimeService runtimeService = processEngine.getRuntimeService();
+        String processDfinationKey="myProcess_1";
+
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("userId",8);
+        runtimeService.startProcessInstanceByKey(processDfinationKey,variables);
+        System.out.println("流程启动成功");
     }
 
 }

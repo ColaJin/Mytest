@@ -9,17 +9,17 @@
 
     <!--数据源配置dbcp-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://47.99.105.168:3306/activiti7" />
-        <property name="username" value="root" />
-        <property name="password" value="hzjs123456" />
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://47.99.105.168:3306/activiti7"/>
+        <property name="username" value="root"/>
+        <property name="password" value="hzjs123456"/>
     </bean>
     <!--activiti单独运行的ProcessEngine配置对象(processEngineConfiguration),使用单独启动方式
         默认情况下：bean的id=processEngineConfiguration
     -->
 
     <!--注意脱机方式使用的类是org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration不是org.activiti.engine.ProcessEngineConfiguration-->
-    <bean id="processEngineConfiguration01" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
+    <bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
         <!--代表数据源，此处可以直接替换成dataSource的bean中的内容,修改参数数据jdbcxxx,不建议使用
         <property name="jdbcDriver" value="com.mysql.jdbc.Driver" />
         <property name="jdbcUrl" value="jdbc:mysql://47.99.105.168:3306/activiti7" />
@@ -28,7 +28,17 @@
         -->
         <property name="dataSource" ref="dataSource"></property>
 
-        <!--代表是否生成表结构-->
+        <!--activiti数据库表处理策略-->
         <property name="databaseSchemaUpdate" value="true"/>
+
+        <!-- 可以注入多个类到activiti的beans中，其中key对应的就是我们的类名 -->
+        <property name="beans">
+            <map>
+                <!--使用value或者value-ref都可以，注入类-->
+                <entry key="commonmethod" value="commonmethod"/>
+            </map>
+        </property>
     </bean>
+    <!--类变成Bean-->
+    <bean class="Activiti.CommonMethod" id="commonmethod"></bean>
 </beans>
