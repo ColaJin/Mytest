@@ -1,5 +1,6 @@
 package com;
 
+import entity.User;
 import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentBuilder;
@@ -189,6 +190,20 @@ public class Activiti {
         variables.put("userId",8);
         runtimeService.startProcessInstanceByKey(processDfinationKey,variables);
         System.out.println("流程启动成功");
+    }
+
+    @Test
+    public void testLocalVariable() throws Exception {
+        //User需要实现Serializable接口
+        User user = new User("jyd",21);
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        TaskService taskService = processEngine.getTaskService();
+        Map<String, User> variable = new HashMap<>();
+        variable.put("user",user);
+        String taskId = "2502";
+        taskService.setVariablesLocal(taskId,variable);
+
+        System.out.println("当前结点流程变量设置成功");
     }
 
 }
