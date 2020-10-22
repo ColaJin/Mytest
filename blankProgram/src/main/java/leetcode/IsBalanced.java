@@ -37,24 +37,40 @@ import java.util.Queue;
 public class IsBalanced {
     public static void main(String[] args) {
         //高度平衡
-        /*TreeNode ll = new TreeNode(9);
+        TreeNode lll = new TreeNode(1);
+        TreeNode ll = new TreeNode(9, lll, null);
         TreeNode lrl = new TreeNode(15);
         TreeNode lrr = new TreeNode(7);
         TreeNode lr = new TreeNode(20, lrl, lrr);
 
-        TreeNode root = new TreeNode(5, ll, lr);*/
+        TreeNode root = new TreeNode(5, ll, lr);
 
 
-        //高度不平衡
+        /*//高度不平衡
         TreeNode l = new TreeNode(2);
         TreeNode lll = new TreeNode(4);
         TreeNode llr = new TreeNode(4);
-        TreeNode ll = new TreeNode(3,lll,llr);
+        TreeNode ll = new TreeNode(3, lll, llr);
         TreeNode lr = new TreeNode(3);
-        TreeNode  r= new TreeNode(2,ll,lr);
-        TreeNode root = new TreeNode(1,l,r);
-        boolean balanced = isBalanced(root);
-        System.out.println(balanced);
+        TreeNode r = new TreeNode(2, ll, lr);
+        TreeNode root = new TreeNode(1, l, r);*/
+
+        /*TreeNode llr = new TreeNode(2);
+        TreeNode ll = new TreeNode(1,null,llr);
+        TreeNode l = new TreeNode(9,ll,null);
+
+        TreeNode rl = new TreeNode(15);
+        TreeNode rr = new TreeNode(7);
+        TreeNode r = new TreeNode(20,rl,rr);
+        TreeNode root = new TreeNode(3,l,r);*/
+
+        /*boolean balanced = isBalanced(root);
+        System.out.println(balanced);*/
+        boolean balancedRecursive = isBalancedRecursive(root);
+        System.out.println(balancedRecursive);
+        boolean balancedRecursiveDownToUp = isBalancedRecursiveDownToUp(root);
+        System.out.println(balancedRecursiveDownToUp);
+
     }
 
     public static boolean isBalanced(TreeNode root) {
@@ -117,5 +133,63 @@ public class IsBalanced {
     }
 
 
-    //TODO:自底向上的递归和自顶而下的递归
+    //自顶而下的递归
+    public static boolean isBalancedRecursive(TreeNode root) {
+
+        if (root == null) {
+            return true;
+        }
+
+        /*//直接return或者直接递归，返回的结果并不是想要的
+        if (root.left != null) {
+            isBalancedRecursive(root.left);
+        }
+        if (root.right != null) {
+             return isBalancedRecursive(root.right);
+        }*/
+
+        /*//这样处理也不可以，返回结果平衡的变成非平衡
+        if (Math.abs(heigth(root.left) - heigth(root.right)) > 1 || isBalancedRecursive(root.left) || isBalancedRecursive(root.right)) {
+            return false;
+        }*/
+
+        //注意是！左子树平衡和！右子树平衡的情况
+        if (Math.abs(heigth(root.left) - heigth(root.right)) > 1 || !isBalanced(root.left) || !isBalanced(root.right)) {
+            return false;
+        }
+
+
+        /*//可优化,是小于等于1
+        return ((Math.abs(heigth(root.left) - heigth(root.right)) <= 1) && isBalancedRecursive(root.left) && isBalancedRecursive(root.right));*/
+
+        return true;
+    }
+
+
+    //自底向上的递归
+    public static boolean isBalancedRecursiveDownToUp(TreeNode root) {
+        return heigthRecurive(root) >= 0;
+
+    }
+
+    //计算树的高度
+    private static int heigthRecurive(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        //计算左子树高度
+        int leftHight = heigthRecurive(root.left);
+        //计算右子树高度
+        int rightHight = heigthRecurive(root.right);
+
+        //不平衡时返回树的高度就是-1
+        if (Math.abs(leftHight - rightHight) > 1 || leftHight == -1 || rightHight == -1) {
+            return -1;
+        }
+        //平衡时返回树的高度
+        return Math.max(leftHight, rightHight) + 1;
+
+    }
+
 }
