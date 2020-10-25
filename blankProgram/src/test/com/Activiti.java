@@ -6,8 +6,12 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentBuilder;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -15,6 +19,9 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+/*//完成SPring配置文件加载
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:activiti.cfg.xml")*/
 public class Activiti {
     @Test
     public void testGenerteTable() {
@@ -204,6 +211,45 @@ public class Activiti {
         taskService.setVariablesLocal(taskId,variable);
 
         System.out.println("当前结点流程变量设置成功");
+    }
+
+    @Test
+    public void testTaskBack() throws Exception {
+        //User需要实现Serializable接口
+        User user = new User("jyd",21);
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        TaskService taskService = processEngine.getTaskService();
+
+        String taskId = "2502";
+        //先判断该任务的办理人是否是当前用户
+        Task task = taskService.createTaskQuery().taskId(taskId).taskAssignee(user.getName()).singleResult();
+        if (task == null) {
+            throw new RuntimeException("该任务的执行人不是您");
+        }
+        //任务拾取后回退
+        taskService.setAssignee(taskId,null);
+
+        System.out.println("当前任务回退成功");
+    }
+
+    @Test
+    public void testTaskHandover() throws Exception {
+        //User需要实现Serializable接口
+        User user = new User("jyd",21);
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        TaskService taskService = processEngine.getTaskService();
+
+        String taskId = "2502";
+        //先判断该任务的办理人是否是当前用户
+        Task task = taskService.createTaskQuery().taskId(taskId).taskAssignee(user.getName()).singleResult();
+        if (task == null) {
+            throw new RuntimeException("该任务的执行人不是您");
+        }
+        String assignee = "jyw";
+        //任务交接
+        taskService.setAssignee(taskId,assignee);
+
+        System.out.println("当前任务交接成功");
     }
 
 }

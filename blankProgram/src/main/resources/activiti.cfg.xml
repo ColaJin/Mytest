@@ -3,9 +3,15 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-						http://www.springframework.org/schema/contex http://www.springframework.org/schema/context/spring-context.xsd
-						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/contex
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/tx
+						http://www.springframework.org/schema/tx/spring-tx.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!--数据源配置dbcp-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -39,6 +45,53 @@
             </map>
         </property>
     </bean>
+
     <!--类变成Bean-->
     <bean class="Activiti.CommonMethod" id="commonmethod"></bean>
+<!--
+    &lt;!&ndash;注意和Spring整合是使用的类是org.activiti.spring.SpringProcessEngineConfiguration&ndash;&gt;
+    <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
+        <property name="dataSource" ref="dataSource"></property>
+
+        &lt;!&ndash;activiti数据库表处理策略&ndash;&gt;
+        <property name="databaseSchemaUpdate" value="true"/>
+
+        &lt;!&ndash; 可以注入多个类到activiti的beans中，其中key对应的就是我们的类名 &ndash;&gt;
+        <property name="transactionManager" ref="transactionManager"/>
+    </bean>
+
+    &lt;!&ndash;事务管理器&ndash;&gt;
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+    <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
+        <property name="processEngineConfiguration" ref="processEngineConfiguration"/>
+    </bean>
+
+    <bean id="repositoryService" factory-bean="processEngine"
+          factory-method="getRepositoryService"/>
+    <bean id="runTimeService" factory-bean="processEngine"
+          factory-method="getRuntimeService"/>
+    <bean id="taskService" factory-bean="processEngine"
+          factory-method="getTaskService"/>
+    <bean id="historyService" factory-bean="processEngine"
+          factory-method="getHistoryService"/>
+
+    <aop:config proxy-target-class="true">
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.Activiti.*.*(..))"/>
+    </aop:config>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save" propagation="REQUIRED"/>
+            <tx:method name="insert" propagation="REQUIRED"/>
+            <tx:method name="delete" propagation="REQUIRED"/>
+            <tx:method name="update" propagation="REQUIRED"/>
+            <tx:method name="find" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="get" propagation="SUPPORTS" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>-->
 </beans>
