@@ -47,6 +47,8 @@ public class MinDepth {
 
         int minDepth = minDepth(root);
         System.out.println(minDepth);
+        int minDepthDepthOrderTraverse = minDepthDepthOrderTraverse(root);
+        System.out.println(minDepthDepthOrderTraverse);
     }
 
     public static int minDepth(TreeNode root) {
@@ -94,25 +96,6 @@ public class MinDepth {
     }
 
 
-    /**
-     * 方式出现问题：对于一个叶节点的高度不是1是结点总个数
-     *
-     * @param root
-     * @return
-     */
-    public static int maxDepthRecursive(TreeNode root) {
-
-        if (root == null) {
-            return 0;
-        }
-        //计算左子树的高度
-        int i = minDepth(root.left);
-        //计算右子树的高度存在疑惑？？？为什么这个递归会变成3
-        int j = minDepth(root.right);
-        //比较大小然后返回+1的结果
-        return i < j ? i + 1 : j + 1;
-    }
-
     public static class TreeNode {
         int val;
         TreeNode left;
@@ -132,5 +115,55 @@ public class MinDepth {
         }
     }
 
-    //TODO：深度优先遍历
+    //TODO：深度优先遍历(前序遍历)
+    public static int minDepthDepthOrderTraverse(TreeNode root) {
+        /*if (root == null) {
+            return 0;
+        }
+
+        if (root.left == null && root.right == null) {
+            return 1;
+        }
+
+        int size = Integer.MAX_VALUE;
+        LinkedList<TreeNode> stack = new LinkedList<>();
+        stack.push(root);//先放根节点
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            System.out.print(node.val+"  ");
+            if (node.right == null && node.left == null ){
+                //这样导致只要是子树都会进入判断，导致最后一个结点size少1使结果不正确
+                size = Math.min(stack.size()+1,size);
+            }
+            //然后放右结点
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+            //最后放左节点
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+
+        }
+        return size;*/
+
+        if (root == null) {
+            return 0;
+        }
+
+        if (root.left == null && root.right == null) {
+            return 1;
+        }
+
+        int size = Integer.MAX_VALUE;
+
+        if (root.left != null) {
+            //使用递归达到深度优先遍历
+            size = Math.min(minDepthDepthOrderTraverse(root.left), size);
+        }
+        if (root.right != null) {
+            size = Math.min(minDepthDepthOrderTraverse(root.right), size);
+        }
+        return size;
+    }
 }
