@@ -101,6 +101,28 @@
             <version>5.2.0.RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.activiti.api</groupId>
+            <artifactId>activiti-api-process-runtime</artifactId>
+            <version>7.1.0.M6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti.api</groupId>
+            <artifactId>activiti-api-task-runtime</artifactId>
+            <version>7.1.0.M6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>5.1.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>5.1.6.RELEASE</version>
+        </dependency>
 
 
     </dependencies>

@@ -47,7 +47,7 @@
     </bean>
 
     <!--类变成Bean-->
-    <bean class="Activiti.CommonMethod" id="commonmethod"></bean>
+    <bean class="Activiti.config.CommonMethod" id="commonmethod"></bean>
 <!--
     &lt;!&ndash;注意和Spring整合是使用的类是org.activiti.spring.SpringProcessEngineConfiguration&ndash;&gt;
     <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">

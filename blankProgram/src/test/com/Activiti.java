@@ -1,6 +1,13 @@
 package com;
 
+import Activiti.config.SecurityUtils;
 import entity.User;
+import org.activiti.api.process.model.builders.ProcessPayloadBuilder;
+import org.activiti.api.process.runtime.ProcessRuntime;
+import org.activiti.api.runtime.shared.query.Page;
+import org.activiti.api.runtime.shared.query.Pageable;
+import org.activiti.api.task.model.builders.TaskPayloadBuilder;
+import org.activiti.api.task.runtime.TaskRuntime;
 import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentBuilder;
@@ -10,6 +17,7 @@ import org.activiti.engine.task.Task;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -17,12 +25,23 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /*//完成SPring配置文件加载
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:activiti.cfg.xml")*/
 public class Activiti {
+
+    @Autowired
+    private ProcessRuntime processRuntime;
+
+    @Autowired
+    private TaskRuntime taskRuntime;
+
+    @Autowired
+    private SecurityUtils securityUtils;
+
     @Test
     public void testGenerteTable() {
         //第一步：创建ProcessEngineConfiguration对象
@@ -250,6 +269,78 @@ public class Activiti {
         taskService.setAssignee(taskId,assignee);
 
         System.out.println("当前任务交接成功");
+    }
+
+
+    @Test
+    public void testGetProcessDefintionByProcessRuntime() throws Exception {
+
+        securityUtils.logInAs("salaboy");
+
+        //分页查询流程定义信息
+        Page<org.activiti.api.process.model.ProcessDefinition> processDefinitionPage =
+                processRuntime.processDefinitions(Pageable.of(0, 10));
+        int totalItems = processDefinitionPage.getTotalItems();
+        System.out.println("查看部署流程的个数 = " + totalItems);
+
+        List<org.activiti.api.process.model.ProcessDefinition> content = processDefinitionPage.getContent();
+        for (org.activiti.api.process.model.ProcessDefinition processDefinition : content) {
+            String id = processDefinition.getId();
+            System.out.println("当前部署的流程定义的id = " + id);
+        }
+    }
+
+    @Test
+    public void testStartProcessByProcessRuntime() throws Exception {
+
+        securityUtils.logInAs("salaboy");
+
+        org.activiti.api.process.model.ProcessInstance processInstance =
+                processRuntime.start(ProcessPayloadBuilder.start().withProcessDefinitionKey("team01").build());
+        System.out.println("流程实例的id = " + processInstance.getId());
+    }
+
+
+    @Test
+    public void testQueryTaskByTaskRuntime() {
+        securityUtils.logInAs("salaboy");
+
+        Page<org.activiti.api.task.model.Task> tasks =
+                taskRuntime.tasks(Pageable.of(0, 10));
+
+        int totalItems = tasks.getTotalItems();
+        System.out.println("任务的总数 = " + totalItems);
+        for (org.activiti.api.task.model.Task task : tasks.getContent()) {
+            String id = task.getId();
+            System.out.println("任务的id = " + id);
+            String name = task.getName();
+            System.out.println("任务名称 = " + name);
+        }
+    }
+
+
+    @Test
+    public void testQueryTaskAndCompleteTask(){
+        securityUtils.logInAs("salaboy");
+
+        Page<org.activiti.api.task.model.Task> page =
+                taskRuntime.tasks(Pageable.of(0, 10));
+
+        int totalItems = page.getTotalItems();
+        System.out.println("任务的总数 = " + totalItems);
+        for (org.activiti.api.task.model.Task task : page.getContent()) {
+            String id = task.getId();
+            System.out.println("任务的id = " + id);
+            String name = task.getName();
+            System.out.println("任务名称 = " + name);
+
+            //拾取任务
+            taskRuntime.claim(TaskPayloadBuilder.claim().withTaskId(id).build());
+
+            //完成任务
+            taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(id).build());
+
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-package Activiti;
+package Activiti.config;
 
 public class CommonMethod {
 
