@@ -14,11 +14,11 @@ import java.util.Queue;
  * <p>
  * 给定二叉树 [3,9,20,null,null,15,7],
  * <p>
- * 3
- * / \
- * 9  20
- * /  \
- * 15   7
+ *      3
+ *     / \
+ *    9  20
+ *      /  \
+ *     15   7
  * 返回它的最小深度  2.
  */
 public class MinDepth {
