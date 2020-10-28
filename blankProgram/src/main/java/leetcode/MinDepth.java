@@ -121,10 +121,6 @@ public class MinDepth {
             return 0;
         }
 
-        if (root.left == null && root.right == null) {
-            return 1;
-        }
-
         int size = Integer.MAX_VALUE;
         LinkedList<TreeNode> stack = new LinkedList<>();
         stack.push(root);//先放根节点
