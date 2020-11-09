@@ -78,9 +78,6 @@ public class SingleNumber {
             }
         }
 
-        //存在前面数字和最后一个是重复的数字5,4,1,2,1,2,5
-
-
         return rs;
     }
 
