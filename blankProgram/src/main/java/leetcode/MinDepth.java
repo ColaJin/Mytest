@@ -115,7 +115,7 @@ public class MinDepth {
         }
     }
 
-    //TODO：深度优先遍历(前序遍历)
+    //深度优先遍历(前序遍历)
     public static int minDepthDepthOrderTraverse(TreeNode root) {
         /*if (root == null) {
             return 0;

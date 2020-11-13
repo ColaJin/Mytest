@@ -198,7 +198,7 @@ public class SortedArrayToBST {
         }
     }
 
-    //TODO：递归的方式
+    //递归的方式
 
     public static TreeNode sortedArrayToBSTRecursion(int[] nums) {
         //有序数组，查找中间结点，使用中间结点的左侧或者右侧的结点作为根节点递归
