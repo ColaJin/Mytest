@@ -82,6 +82,7 @@ public class TwoSumII {
             //控制low
             int low = i + 1;
             while (low <= hight) {
+                //此处一定是high-low否则有的结点遍历不到死循环
                 int mid = (hight - low) / 2 + low;
                 //计算的是numbers[i]不是number[low]
                 if (numbers[i] + numbers[mid] == target) {
