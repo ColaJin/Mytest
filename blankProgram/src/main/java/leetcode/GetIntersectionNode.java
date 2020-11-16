@@ -30,7 +30,8 @@ public class GetIntersectionNode {
         headB1.next = headB2;
         ListNode intersectionNode = getIntersectionNode(headA1, headB1);
         System.out.println(intersectionNode.val);
-
+        ListNode intersectionNodeByMeet = getIntersectionNodeByMeet(headA1, headB1);
+        System.out.println(intersectionNodeByMeet);
     }
 
 
@@ -71,6 +72,36 @@ public class GetIntersectionNode {
     }
 
     //错的人迟早会走散，而对的人迟早会相逢
-    // 两个结点都走自己的链表，知道两个链表结点相同返回结点的结果，存在相交返回相交结点，否则返回null结点
-    //TODO
+    //两个结点都走自己的链表，知道两个链表结点相同返回结点的结果，存在相交返回相交结点，否则返回null结点
+    //人家的思路是走对方走过的路
+    public static ListNode getIntersectionNodeByMeet(ListNode headA, ListNode headB) {
+        //两个结点遍历
+        ListNode preA = headA;
+        ListNode preB = headB;
+        //解决空指针异常
+        if (headA == null || headB == null) {
+            return null;
+        }
+        while (headA != headB) {
+            //当无交点时最后heaA和headB会重合在null(各自的尾结点)
+            headA = headA.next;
+            //发生空指针异常
+            headB = headB.next;
+            if (headA == null && headB != null) {
+                //人家的代码
+                headA = preB;
+                //headA = preA;
+            }
+            if (headB == null && headA != null) {
+                headB = preA;
+                //headB = preB;
+            }
+        }
+        //无交点
+        if (headA == null) {
+            return null;
+        }
+        //返回交点
+        return headA;
+    }
 }
