@@ -7,6 +7,8 @@ public class MajorityElement {
         int[] nums = new int[]{3, 2, 3};
         int majorityElement = majorityElement(nums);
         System.out.println(majorityElement);
+        int r = majorityElementByRandom(nums);
+        System.out.println(r);
     }
 
     public static int majorityElement(int[] nums) {
@@ -96,7 +98,40 @@ public class MajorityElement {
 
     // 排序方法：数组排序下标n/2向下取整的下标对应的值？？？需要解释
 
-    //随机化：给定下标对应的数字很可能是众数，随机挑选一个下标，检查是否为众数，是就返回，否则继续随机挑选
+    //随机化：给定下标对应的数字很可能是众数，随机挑选一个下标，检查是否为众数(超过n/2个下标被众数占用)，是就返回，否则继续随机挑选
+    public static int majorityElementByRandom(int[] nums) {
+        Random random = new Random();
+        /*//最大值取nums.length
+        int max = nums.length;
+        int min = 0;*/
+        //超过n/2个下标被众数占用
+        int majorityCount = nums.length / 2;
+        while (true) {
+            int randomIndex = getRandomIndex(random, nums.length, 0);
+            //大于
+            if (isMajor(nums, nums[randomIndex]) > majorityCount) {
+                //返回众数，不是元素个数
+                return nums[randomIndex];
+            }
+        }
+    }
+
+    //随机化一个下标，返回int
+    public static int getRandomIndex(Random rand, int max, int min) {
+        return rand.nextInt(max - min) + min;
+    }
+
+    //计算元素个数
+    public static int isMajor(int[] nums, int num) {
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == num) {
+                count++;
+            }
+        }
+        return count;
+    }
+
 
     // 分治法：首先递归成子问题都是长度为1的数组
     // 长度为1的子数组唯一的树显然是众数，否则分开左右两部分递归
