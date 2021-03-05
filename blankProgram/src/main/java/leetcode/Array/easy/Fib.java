@@ -49,9 +49,9 @@ public class Fib {
 
     //非递归，即迭代的方式优化
     public static int fibByIterator(int n) {
-        if (n < 2) {
+        /*if (n < 2) {
             return n;
-        }
+        }*/
         int first = 0;
         int second = 1;
 
