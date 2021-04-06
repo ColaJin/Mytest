@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.listnode;
 
 /**
  * 编写一个程序，找到两个单链表相交的起始节点。

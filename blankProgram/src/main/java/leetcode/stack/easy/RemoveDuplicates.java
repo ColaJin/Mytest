@@ -37,7 +37,7 @@ public class RemoveDuplicates {
         for (int i = 1; i < S.length(); i++) {
             //sb长度要>0否则sb.length() - 1变成-1索引越界，需要是sb.length() - 1否则i-1造成sb索引越界
             if (sb.length() > 0 && sb.charAt(sb.length() - 1) == S.charAt(i)) {
-                //删除当前字符串
+                //删除当前字符
                 sb.deleteCharAt(sb.length() - 1);
             } else {
                 sb.append(S.charAt(i));
