@@ -50,13 +50,19 @@ public class ReverseList {
         //下一个节点指针
         ListNode nextNode = null;
 
+        //从head开始作为当前结点cur，pre和next都是null
         while (curNode != null){
+            //当前结点不为null的时候存储当前结点的下一个结点cur.next
             nextNode = curNode.next;//nextNode 指向下一个节点
+            //反转，当前的next变成之前结点(头结点指向null)
             curNode.next = preNode;//将当前节点next域指向前一个节点
+            //当前结点变成之前的结点
             preNode = curNode;//preNode 指针向后移动
+            //下一个结点变成当前结点
             curNode = nextNode;//curNode指针向后移动
         }
 
+        //preNode即为反转后的链表
         return preNode;
     }
 
