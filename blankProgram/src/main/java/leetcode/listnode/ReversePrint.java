@@ -15,6 +15,22 @@ public class ReversePrint {
             System.out.println(i);
         }
     }
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
+    }
 
     public static int[] reversePrint(ListNode head) {
 
