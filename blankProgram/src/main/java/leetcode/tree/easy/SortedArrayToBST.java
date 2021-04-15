@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.tree.easy;
 
 import org.apache.poi.ss.formula.functions.T;
 

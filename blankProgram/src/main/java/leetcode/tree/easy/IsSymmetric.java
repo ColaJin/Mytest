@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.tree.easy;
 
 import javax.xml.soap.Node;
 import java.util.*;
