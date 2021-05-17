@@ -83,6 +83,12 @@ public class RangeSumBST {
         queue.offer(root);
         while (!queue.isEmpty()) {
             TreeNode temp = queue.poll();
+
+            /*// 优化内部判空
+            if (temp == null) {
+                continue;
+            }*/
+
             if (temp.val < low) {
                 // 防止空指针异常
                 if (temp.right != null) {
@@ -90,6 +96,7 @@ public class RangeSumBST {
                 }
             } else if (temp.val > high) {
                 if (temp.left != null) {
+                    // 可以取消
                     queue.offer(temp.left);
                 }
             } else {
