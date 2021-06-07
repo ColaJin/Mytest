@@ -133,6 +133,14 @@
         </dependency>
 
 
+        <!-- org.hibernate.query; -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.4.31.Final</version>
+        </dependency>
+
+
     </dependencies>
     <artifactId>blankProgram</artifactId>
     <version>1.0-SNAPSHOT</version>
