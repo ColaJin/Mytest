@@ -30,19 +30,61 @@ public class FindTheDifference {
         }
 
 
-
-        // 默认
+        // 默认,返回''报错，是' '
         return ' ';
         // return '\u0000';
     }
 
     // 数组：26长度大小，存储 ch-'a'(变成int存储)的数量++；
     // --时判断<0返回
+    public static char findTheDifferenceByArray(String s, String t) {
+        int[] count = new int[26];
 
+        for (Character ch : s.toCharArray()) {
+            count[ch - 'a']++;
+        }
+        for (int i = 0; i < t.length(); i++) {
+            char ch = t.charAt(i);
+            count[ch - 'a']--;
+            if (count[ch - 'a'] < 0) {
+                return ch;
+            }
+        }
+
+
+        // 默认,返回''报错，是' '
+        return ' ';
+        // return '\u0000';
+    }
 
     // 计算字符和然后返回字符和差
+    public static char findTheDifferenceBySum(String s, String t) {
 
+        int sumS = 0;
+        int sumT = 0;
+
+        for (Character ch : s.toCharArray()) {
+            sumS += ch;
+        }
+        for (int i = 0; i < t.length(); i++) {
+            sumT += t.charAt(i);
+        }
+
+        return (char) (sumT - sumS);
+    }
 
     // 异或运算 a^a = 0不同的结果为异或结果
+    public static char findTheDifferenceByCal(String s, String t) {
+        int rs = 0;
 
+        for (Character ch : s.toCharArray()) {
+            rs ^= ch;
+        }
+
+        for (Character ch : t.toCharArray()) {
+            rs ^= ch;
+        }
+
+        return (char) rs;
+    }
 }
