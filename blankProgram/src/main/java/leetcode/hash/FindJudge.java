@@ -48,10 +48,15 @@ public class FindJudge {
     }
 
     public static int findJudgeRight(int n, int[][] trust) {
-        // 1-N之中不存在的键值则是法官？存在问题1,2 2,3这个时候不存在，3也是不存在在键值中
-        // 值中需要唯一？但是其实指向相同也可以，1,4  4,3
 
+        if (n == 1 && trust.length == 0) {
+            // 特殊情况
+            return 1;
+        }
+
+        // 存储人员和被信任的人数
         Map<Integer, Integer> mapCount = new HashMap<>();
+        // 存储人员信任关系
         Map<Integer, Integer> mapRelation = new HashMap<>();
         for (int i = 0; i < trust.length; i++) {
 
@@ -63,6 +68,7 @@ public class FindJudge {
         }
 
         for (int i : mapCount.keySet()) {
+            // n - 1个人信任i
             if (mapCount.get(i) == n - 1) {
                 //可能是法官
                 if (mapRelation.containsKey(i)) {
