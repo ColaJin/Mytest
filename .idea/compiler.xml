@@ -9,8 +9,8 @@
         <module name="blankProgram" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="blankProgram" target="1.8" />
+    <bytecodeTargetLevel target="8">
+      <module name="blankProgram" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
