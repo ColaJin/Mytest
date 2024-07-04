@@ -1,5 +1,6 @@
 package hikversion;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -53,7 +54,7 @@ public class StringToHex {
     }
 
     //504F533838383834  POS88884
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedEncodingException {
 
         /*StringToHex strToHex = new StringToHex();
         System.out.println("\n-----ASCII码转换为16进制 -----");
@@ -65,8 +66,11 @@ public class StringToHex {
         System.out.println("\n***** 16进制转换为ASCII *****");
         System.out.println("Hex : " + 0X30);
         System.out.println("ASCII : " + strToHex.convertHexToString(hex));*/
-        byte[] bytes = {0x46,0x46};
+        /*byte[] bytes = {0x46,0x46};
         String he = new String(bytes, StandardCharsets.US_ASCII);
-        System.out.println(he);
+        System.out.println(he);*/
+        byte[] bytes = {0x32,0x32,0x38};
+        String s = new String(bytes, "GBK");
+        System.out.println(s);
     }
 }

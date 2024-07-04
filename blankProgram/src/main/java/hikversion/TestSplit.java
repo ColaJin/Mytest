@@ -46,11 +46,31 @@ public class TestSplit {
         tempDevice.add("123456");
         userDevice.setDeviceIds((String[]) tempDevice.toArray());*/
 
-        TestNullPointerException testNullPointerException = new TestNullPointerException();
-        testNullPointerException.toAttributeJson();
+        /*TestNullPointerException testNullPointerException = new TestNullPointerException();
+        testNullPointerException.toAttributeJson();*/
+
+        // String s = "\\C000000\\B000\\C032000\\Fs3232\\T255000000000\\K000255000000\\WHello World!\\C000000\\B000";
+        /*String s = "\\C000000\\Fs4848\\M00\\W注意安全\\C000048\\Fs4848\\T255255000000\\M00\\K000000000000\\W保持车距";
+        String[] split = s.split("\\\\C");
+        for (String s1 : split) {
+            System.out.println(s1);
+        }*/
+
+        /*String s = "021";
+        System.out.println(Integer.valueOf(s));*/
+
+        String s = "hiksdk_net,vss,encode,10.14.81.126,8000,admin,DAC@123++,xxx,,,,,";
+        List<String> content = Arrays.asList(s.split(","));
+        for (String s1 : content) {
+            System.out.println(s1);
+        }
+        String s23 = "hiksdk_net,vss,encode,10.14.81.126,8000,admin,DAC@123++,xxx,,,hikvision,";
+        List<String> content1 = Arrays.asList(s23.split(","));
+        for (String s1 : content1) {
+            System.out.println(s1);
+        }
 
     }
-
 
 
     public static String generateSecuSID() {

@@ -1,6 +1,7 @@
 package hikversion;
 
 import hikversion.controller.DeviceBean;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
@@ -47,12 +48,21 @@ public class TestContain {
                 System.out.println("this is error");
             }
         }*/
-        List<String> errorRow = new ArrayList<>();
+        /*List<String> errorRow = new ArrayList<>();
         errorRow.add("12345678910--1");
         Map<String, DeviceBean> deviceReqDtoMap = new HashMap<>();
         deviceReqDtoMap.put("12345678910--11",new DeviceBean());
         if(deviceReqDtoMap.containsKey(errorRow.get(0))){
             System.out.println("this is error");
+        }*/
+
+        /*String s = "ct";
+        if (s.contains("t")) {
+            System.out.println(true);
+        }*/
+        String extendJson = "{\"service_type\":44,\"unifiedId\":\"1001346165522690049@smb_new.closeli.com.cn1684949872009\",\"componentName\":\"sdmc\",\"deviceToken\":\"f89f900816604e94926edc4b805cfa58\",\"service_days\":7}";
+        if (StringUtils.isNotBlank(extendJson)&& extendJson.contains("\"service_type\":44")){
+            System.out.println("ooooo");
         }
     }
 }

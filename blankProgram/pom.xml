@@ -8,6 +8,12 @@
     <dependencies>
 
         <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.66</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.java-websocket</groupId>
             <artifactId>Java-WebSocket</artifactId>
             <version>1.5.3</version>
