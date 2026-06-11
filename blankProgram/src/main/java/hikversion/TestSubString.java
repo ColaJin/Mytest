@@ -37,7 +37,11 @@ public class TestSubString {
         System.out.println(substring+"libso/");*/
 
 
-        System.out.println(init()+"libDrvNetLib.so");
+        //System.out.println(init()+"libDrvNetLib.so");
+
+        String temp = "/opt/opsmgr/web/components/dac.1/resource/drivers/drv_smokedetector_dahua_firecloud_iot_2.0.100/bin/vag/lib/JavaHikPluginFrame-2.0-SNAPSHOT.jar";
+        String lib = temp.substring(0, temp.indexOf("lib"));
+        System.out.println(lib);
     }
 
     public static String init() {

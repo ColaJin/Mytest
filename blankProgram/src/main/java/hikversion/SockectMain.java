@@ -20,7 +20,7 @@ import java.nio.ByteBuffer;
  * @Date:2022/2/23
  */
 public class SockectMain {
-    private static String uri = "ws://10.19.187.155:6019";
+    private static String uri = "ws://10.19.214.39:6019";
     private static Session session;
     private void start() {
         WebSocketContainer container = null;
